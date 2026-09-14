@@ -1,0 +1,9 @@
+# Jekyll output and caches -- GitHub Pages builds the site from source, these are never committed
+_site/
+.jekyll-cache/
+.jekyll-metadata
+.sass-cache/
+
+# Local toolchain
+Gemfile.lock
+vendor/

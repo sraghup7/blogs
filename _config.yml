@@ -1,0 +1,18 @@
+title: Sai Charan Raghupatruni
+description: Notes on FPGAs, ASICs, RTL and the occasional reverse-engineering problem.
+url: "https://sraghup7.github.io"
+baseurl: "/blogs"
+
+theme: minima
+permalink: /:title/
+
+markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+show_excerpts: true
