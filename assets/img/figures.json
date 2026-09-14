@@ -1,0 +1,73 @@
+{
+  "generated_by": "scripts/make_figures.py",
+  "read_from": "E:\\Projects\\Jane-Street-ASIC-Puzzle",
+  "project_commit": "59508f1",
+  "figures": [
+    {
+      "file": "f1_pipeline.png",
+      "caption": "The six moves, with the measured number that carries each one.",
+      "sources": [
+        "recon/derived/solutions.json",
+        "recon/derived/nets.json",
+        "recon/derived/e1_messages.json",
+        "recon/derived/instances.json"
+      ],
+      "source_sha256": {
+        "recon/derived/solutions.json": "e50c5053a2cbde8399f07f70f2b003614db725643bb4550a8b5a3d8164e092b4",
+        "recon/derived/nets.json": "a343ece5502db41a7089b76c0722b8800fd3e1f4450ba59fb1c4dcdf0699eb31",
+        "recon/derived/e1_messages.json": "2b76a5c0ced7bd84a0d8be2ce90f590d219bdf2c17889572c7cf3b00f0155830",
+        "recon/derived/instances.json": "2ecf203060cb878d0a0398fa5b2ccbee3e4f04f6c0b81431502261917d2e7a6c"
+      }
+    },
+    {
+      "file": "f2_answer.png",
+      "caption": "The accepted 121-bit board.",
+      "sources": [
+        "recon/derived/solutions.json",
+        "recon/derived/e1_messages.json"
+      ],
+      "source_sha256": {
+        "recon/derived/solutions.json": "e50c5053a2cbde8399f07f70f2b003614db725643bb4550a8b5a3d8164e092b4",
+        "recon/derived/e1_messages.json": "2b76a5c0ced7bd84a0d8be2ce90f590d219bdf2c17889572c7cf3b00f0155830"
+      }
+    },
+    {
+      "file": "f3_messages.png",
+      "caption": "The five messages and their triggers.",
+      "sources": [
+        "recon/derived/e1_messages.json",
+        "recon/derived/e2_messages.json"
+      ],
+      "source_sha256": {
+        "recon/derived/e1_messages.json": "2b76a5c0ced7bd84a0d8be2ce90f590d219bdf2c17889572c7cf3b00f0155830",
+        "recon/derived/e2_messages.json": "1b475ba6488869f88c0bbed89fb758369626b379875683ccdc2f22047ac41178"
+      }
+    },
+    {
+      "file": "f4_partition.png",
+      "caption": "The recovered partition, as measured (not drawn as letters).",
+      "sources": [
+        "recon/derived/c4_partition.json",
+        "recon/derived/solutions.json"
+      ],
+      "source_sha256": {
+        "recon/derived/c4_partition.json": "9e137e973636040abcaa4394f1a911174eb55d8cd319515b528307bd6694e5e9",
+        "recon/derived/solutions.json": "e50c5053a2cbde8399f07f70f2b003614db725643bb4550a8b5a3d8164e092b4"
+      }
+    },
+    {
+      "file": "f5_net806.png",
+      "caption": "Net 806: the layout leaves it undriven, and the one cut over it cannot merge.",
+      "sources": [
+        "recon/derived/net806.json",
+        "recon/derived/via_pairs.json",
+        "asic-puzzle-2026/puzzle.gds"
+      ],
+      "source_sha256": {
+        "recon/derived/net806.json": "055952a87bbe22f904a253a7cc387ab0796a973a8bcb83315146b40a17249ae3",
+        "recon/derived/via_pairs.json": "3c7c54382d4fcd32f60f1a85edfdaff34893455eeae9dfffe9982a3790054994",
+        "asic-puzzle-2026/puzzle.gds": "8913ea4be5367b484d5886c3c5f7608942b67544a0dbe364b17223503b8d851a"
+      }
+    }
+  ]
+}
