@@ -1,0 +1,62 @@
+{
+  "generated_at": "2026-09-16T21:24:49.334870+00:00",
+  "generator": "scripts/make_figures.py",
+  "project_repo": {
+    "commit": "044d28569c84d0957060229a787ca0f71823eddc",
+    "branch": "review-fixes",
+    "dirty": false
+  },
+  "matplotlib_version": "3.11.2",
+  "themes_rendered": [
+    "light",
+    "dark"
+  ],
+  "citations": {
+    "f1_pipeline": [
+      {
+        "path": "tools/puzzle/cli.py",
+        "sha256": "0eee1cf6e41b4d1722ef8fa25ba686765924c25af6c6ddc03f471d0b5021dc90"
+      }
+    ],
+    "f2_answer": [
+      {
+        "path": "recon/derived/solutions.json",
+        "sha256": "e77ccf724993e7eac735dffe44c164797610a1d4b3be5b4a7cbb590140589903"
+      },
+      {
+        "path": "recon/derived/e1_messages.json",
+        "sha256": "2b76a5c0ced7bd84a0d8be2ce90f590d219bdf2c17889572c7cf3b00f0155830"
+      }
+    ],
+    "f3_messages": [
+      {
+        "path": "recon/derived/e1_messages.json",
+        "sha256": "2b76a5c0ced7bd84a0d8be2ce90f590d219bdf2c17889572c7cf3b00f0155830"
+      },
+      {
+        "path": "recon/derived/e2_messages.json",
+        "sha256": "9ba889a0c4e2e9e780f163f873362ff043b8807d3eeadc0fa4197abe0dd0e45b"
+      }
+    ],
+    "f4_partition": [
+      {
+        "path": "recon/derived/c4_partition.json",
+        "sha256": "881e46f56922a3e7f36d7065c0a32b5764b12f803aaef861add1aef3bc27e658"
+      },
+      {
+        "path": "recon/derived/solutions.json",
+        "sha256": "e77ccf724993e7eac735dffe44c164797610a1d4b3be5b4a7cbb590140589903"
+      }
+    ],
+    "f5_net806": [
+      {
+        "path": "recon/derived/net806.json",
+        "sha256": "55ef1da8eda36df1c1ad19eaa8e779a375fdaba8b1a672149eaf927a684232a1"
+      },
+      {
+        "path": "asic-puzzle-2026/puzzle.gds",
+        "sha256": "8913ea4be5367b484d5886c3c5f7608942b67544a0dbe364b17223503b8d851a"
+      }
+    ]
+  }
+}

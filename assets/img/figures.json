@@ -5,9 +5,11 @@
   "project_branch": "review-fixes",
   "project_repo_dirty": false,
   "regenerated_2026-09-16_note": "figures rebuilt after the 2026-09-15/16 solution-review fix pass (AC6 PARTIAL -> PASS, net806 framing corrected, E2 extended to the full 189-board swap family); the cited commit is HEAD on review-fixes, not yet tagged review-fixes-complete",
+  "theming_note": "every figure is now rendered twice, once per THEMES entry in scripts/make_figures.py (light: filename unchanged; dark: '-dark' suffix). The post embeds both per image via <picture><source media=\"(prefers-color-scheme: dark)\">, so the browser picks the variant that matches the reader's UI theme -- the same theme assets/main.scss switches the rest of the page with. Same sources/sha256 feed both variants of a given figure; only the color palette differs.",
   "figures": [
     {
       "file": "f1_pipeline.png",
+      "dark_variant": "f1_pipeline-dark.png",
       "caption": "The pipeline: 31 stages from raw GDS to the derived answer, with the two independent behavioural oracles (warm-up regression, VCD replay) called out.",
       "sources": [
         "tools/puzzle/cli.py"
@@ -18,6 +20,7 @@
     },
     {
       "file": "f2_answer.png",
+      "dark_variant": "f2_answer-dark.png",
       "caption": "The accepted 121-bit board.",
       "sources": [
         "recon/derived/solutions.json",
@@ -30,6 +33,7 @@
     },
     {
       "file": "f3_messages.png",
+      "dark_variant": "f3_messages-dark.png",
       "caption": "The five messages and their triggers, plus the full 189-board swap-family breakdown (23 spell TWO NOT TOUCH, 156 do not, 10 are neither).",
       "sources": [
         "recon/derived/e1_messages.json",
@@ -42,6 +46,7 @@
     },
     {
       "file": "f4_partition.png",
+      "dark_variant": "f4_partition-dark.png",
       "caption": "The recovered partition, as measured: 11 classes, plus each class cropped to its own bounding box on the right. Two of them draw as the letters J and S.",
       "sources": [
         "recon/derived/c4_partition.json",
@@ -54,6 +59,7 @@
     },
     {
       "file": "f5_net806.png",
+      "dark_variant": "f5_net806-dark.png",
       "caption": "Net 806: the chip's one undriven net -- 17 shapes across li1/met1/met2, its own four vias, and the one foreign cut, rendered from the real GDS geometry.",
       "sources": [
         "recon/derived/net806.json",

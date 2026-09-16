@@ -81,7 +81,10 @@ space. I wrote two independent enumerators and required them to agree. No SAT so
 `cover()` call — partly because the search is tractable, and partly because a solver that says
 "unsatisfiable" teaches you nothing about *why*.
 
-![The pipeline: 31 stages from raw GDS to the derived answer](/blogs/assets/img/f1_pipeline.png)
+<picture>
+  <source srcset="/blogs/assets/img/f1_pipeline-dark.png" media="(prefers-color-scheme: dark)">
+  <img src="/blogs/assets/img/f1_pipeline.png" alt="The pipeline: 31 stages from raw GDS to the derived answer">
+</picture>
 
 *Every stage is gated by a check that re-derives what it asserts. The two outlined boxes are the
 project's independent behavioural oracles — the warm-up regression and the byte-exact VCD replay — not
@@ -191,7 +194,10 @@ capacity-2 covers come out — eleven classes, each holding exactly two of the a
 One of them is just "the columns" (which adds nothing, since two-per-column is already a visible rule);
 the other is a genuinely different partition, and it is the one that pins the accepted input.
 
-![The recovered partition, as measured](/blogs/assets/img/f4_partition.png)
+<picture>
+  <source srcset="/blogs/assets/img/f4_partition-dark.png" media="(prefers-color-scheme: dark)">
+  <img src="/blogs/assets/img/f4_partition.png" alt="The recovered partition, as measured">
+</picture>
 
 *The partition I recovered, as measured: 11 classes over the 121 cells, two of the answer's set bits in
 each. Class sizes run from 4 to 28 cells — it is not the tidy 11-column picture. On the right, each
@@ -238,9 +244,15 @@ Its 121-bit feed order, top-left cell first:
 
 Fed that vector, the chip asserts `success` at **cycle 126**, and prints **`(* TWO STARS *)`**.
 
-![The accepted board](/blogs/assets/img/f2_answer.png)
+<picture>
+  <source srcset="/blogs/assets/img/f2_answer-dark.png" media="(prefers-color-scheme: dark)">
+  <img src="/blogs/assets/img/f2_answer.png" alt="The accepted board">
+</picture>
 
-![The five messages and their triggers](/blogs/assets/img/f3_messages.png)
+<picture>
+  <source srcset="/blogs/assets/img/f3_messages-dark.png" media="(prefers-color-scheme: dark)">
+  <img src="/blogs/assets/img/f3_messages.png" alt="The five messages and their triggers">
+</picture>
 
 The chip's vocabulary is small and precise: `EMPTY SKY` for all zeros, `BIG BANG` for all ones,
 `TRY AGAIN` for everything else that is wrong, `TWO NOT TOUCH` when adjacency is the *only* fault, and
@@ -330,7 +342,10 @@ the precise statement is narrower than "nondeterministic": this one character is
 artifact I was given, not undeterminable in principle, and at least five wires already on the die would
 have settled it.
 
-![Net 806: the layout leaves it undriven](/blogs/assets/img/f5_net806.png)
+<picture>
+  <source srcset="/blogs/assets/img/f5_net806-dark.png" media="(prefers-color-scheme: dark)">
+  <img src="/blogs/assets/img/f5_net806.png" alt="Net 806: the layout leaves it undriven">
+</picture>
 
 *The undriven net: 17 shapes across li1/met1/met2, its own four vias (yellow), and the one foreign cut
 (the arrow) that overlaps its footprint on a layer pair the wire does not occupy there, so there is
