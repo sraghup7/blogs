@@ -1,0 +1,280 @@
+---
+---
+
+@import "minima";
+
+// ---------------------------------------------------------------------------------------------
+// Custom skin: warm paper / copper accent, IBM Plex Serif + Mono, dark-mode via prefers-color-scheme.
+// Layered on top of minima's own generated CSS (loaded above), so later rules here win the cascade
+// without needing to know every minima Sass variable name.
+// ---------------------------------------------------------------------------------------------
+
+:root {
+  --bg: #faf8f4;
+  --bg-elevated: #ffffff;
+  --ink: #1b1f23;
+  --muted: #5b6470;
+  --border: #e3ded4;
+  --accent: #b5622e;
+  --accent-strong: #8f4a20;
+  --code-bg: #1b1f23;
+  --code-ink: #e6e1d8;
+  --code-muted: #8b93a0;
+  --shadow: 0 1px 2px rgba(27, 31, 35, 0.04), 0 6px 16px rgba(27, 31, 35, 0.06);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #12151a;
+    --bg-elevated: #181c22;
+    --ink: #e8e6e1;
+    --muted: #8b93a0;
+    --border: #262b33;
+    --accent: #e2954f;
+    --accent-strong: #f0ad6f;
+    --code-bg: #0d1013;
+    --code-ink: #d8d3c8;
+    --code-muted: #7a828f;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 10px 24px rgba(0, 0, 0, 0.35);
+  }
+}
+
+* { box-sizing: border-box; }
+
+html {
+  background: var(--bg);
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+  font-size: 18px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+a:hover { color: var(--accent-strong); }
+
+// A thin copper trace across the very top of every page.
+body::before {
+  content: "";
+  display: block;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent) 0%, var(--accent-strong) 45%, transparent 100%);
+}
+
+// ---- header --------------------------------------------------------------------------------
+
+.site-header {
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  backdrop-filter: saturate(140%) blur(6px);
+}
+
+.site-title, .site-title:visited {
+  font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ink) !important;
+  font-size: 1.05rem;
+}
+.site-title::before {
+  content: "~/";
+  color: var(--accent);
+}
+
+.site-nav .page-link {
+  font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  font-size: 0.85rem;
+  color: var(--muted);
+  font-weight: 500;
+}
+.site-nav .page-link:hover {
+  color: var(--accent);
+}
+.site-nav .menu-icon > svg path { fill: var(--muted); }
+.site-nav label[for="nav-trigger"] { color: var(--ink); }
+
+// ---- page shell ------------------------------------------------------------------------------
+
+.page-content { background: var(--bg); }
+
+.wrapper { max-width: 800px; }
+
+// ---- home page: post list as cards --------------------------------------------------------
+
+.post-list {
+  list-style: none;
+  margin-left: 0;
+}
+.post-list > li {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: 8px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.1rem;
+  box-shadow: var(--shadow);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+.post-list > li:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(27, 31, 35, 0.06), 0 12px 24px rgba(27, 31, 35, 0.1);
+}
+.post-list .post-meta {
+  font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+.post-list h3 { margin: 0.25rem 0 0.5rem; }
+.post-list .post-link {
+  color: var(--ink);
+  font-weight: 700;
+}
+.post-list .post-link:hover { color: var(--accent); }
+
+.home > h1.page-heading,
+.post-list-heading {
+  font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  font-size: 0.95rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+  border: none;
+}
+
+// ---- post header -----------------------------------------------------------------------------
+
+.post-header { margin-bottom: 2rem; }
+
+.post-title {
+  font-family: "IBM Plex Serif", Georgia, serif;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  font-size: 2.1rem;
+}
+
+.post-meta {
+  font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  font-size: 0.8rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+// ---- post body --------------------------------------------------------------------------------
+
+.post-content {
+  h2 {
+    font-family: "IBM Plex Serif", Georgia, serif;
+    font-weight: 700;
+    margin-top: 2.6rem;
+    padding-top: 0.6rem;
+    border-top: 1px solid var(--border);
+  }
+  h3 {
+    font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+    font-size: 1.05rem;
+    color: var(--accent-strong);
+  }
+  p { margin-bottom: 1.25rem; }
+  strong { color: var(--ink); }
+
+  blockquote {
+    border-left: 3px solid var(--accent);
+    color: var(--muted);
+    font-family: "IBM Plex Serif", Georgia, serif;
+    font-style: italic;
+  }
+
+  // Figure captions: a paragraph that is *only* italic text, the convention this blog's posts use.
+  p:has(> em:only-child) {
+    font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+    font-size: 0.82rem;
+    font-style: normal;
+    color: var(--muted);
+    text-align: center;
+    line-height: 1.5;
+    margin-top: -0.6rem;
+    margin-bottom: 2rem;
+
+    em { font-style: normal; }
+  }
+
+  img {
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    background: #fff;
+  }
+
+  video {
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    display: block;
+  }
+
+  // inline code
+  :not(pre) > code {
+    background: var(--border);
+    color: var(--accent-strong);
+    border-radius: 4px;
+    padding: 0.12em 0.35em;
+    font-size: 0.85em;
+    border: none;
+  }
+
+  // fenced / highlighted code blocks
+  pre, .highlight {
+    background: var(--code-bg) !important;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+  }
+  pre, pre code, .highlight, .highlight * {
+    font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+    font-size: 0.85em;
+  }
+  .highlighter-rouge pre.highlight, div.highlighter-rouge {
+    background: var(--code-bg);
+  }
+  pre.highlight code, .highlight pre { color: var(--code-ink); background: transparent; }
+  pre { color: var(--code-ink); }
+}
+
+// ---- footer ------------------------------------------------------------------------------
+
+.site-footer {
+  background: var(--bg-elevated);
+  border-top: 1px solid var(--border);
+  margin-top: 4rem;
+}
+.footer-heading {
+  font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  font-size: 0.85rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+.footer-col-1 { display: none; } // repeats the site title right under the heading; redundant here
+.site-footer, .site-footer a { color: var(--muted); }
+.site-footer a:hover { color: var(--accent); }
+.site-footer ul { margin-left: 0; list-style: none; }
+
+// ---- misc ----------------------------------------------------------------------------------
+
+::selection { background: var(--accent); color: #fff; }
+
+hr { border-color: var(--border); }
