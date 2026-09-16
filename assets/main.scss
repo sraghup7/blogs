@@ -197,8 +197,11 @@ body::before {
     font-style: italic;
   }
 
-  // Figure captions: a paragraph that is *only* italic text, the convention this blog's posts use.
-  p:has(> em:only-child) {
+  // Figure captions: an italic paragraph immediately followed by a kramdown IAL, `{: .caption}`.
+  // (Not `p:has(> em:only-child)` -- CSS structural pseudo-classes only count *element* siblings,
+  // so that selector also matched any ordinary paragraph with exactly one inline *word* anywhere in
+  // a page of prose, e.g. "is the *route*: a layout file..." -- it re-fonted the entire post body.)
+  p.caption {
     font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace;
     font-size: 0.82rem;
     font-style: normal;

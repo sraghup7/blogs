@@ -86,6 +86,7 @@ space. I wrote two independent enumerators and required them to agree. No SAT so
 *Every stage is gated by a check that re-derives what it asserts. The two outlined boxes are the
 project's independent behavioural oracles — the warm-up regression and the byte-exact VCD replay — not
 just more self-checks.*
+{: .caption}
 
 ### Tech stack
 
@@ -123,6 +124,7 @@ That is the check that the rules I derived from the artwork are the real ones.
 *A 25-second render of the warm-up layout (1280×1302). Worth a look, because it makes the point that
 this is routed silicon: cells on a grid, wires snaking across several metal layers, vias wherever a
 wire changes layer.*
+{: .caption}
 
 ## Step 2 — Placements
 
@@ -195,6 +197,7 @@ the other is a genuinely different partition, and it is the one that pins the ac
 each. Class sizes run from 4 to 28 cells — it is not the tidy 11-column picture. On the right, each
 class cropped to its own bounding box: two of them, unlabelled here, are the J and S the published
 writeup describes.*
+{: .caption}
 
 Then I tested it against the chip *through its messages*, on the whole family rather than a sample: every
 board reachable from the accepted one by swapping two rows' star columns — **189 boards** — asked, one at
@@ -332,6 +335,7 @@ have settled it.
 *The undriven net: 17 shapes across li1/met1/met2, its own four vias (yellow), and the one foreign cut
 (the arrow) that overlaps its footprint on a layer pair the wire does not occupy there, so there is
 nothing to merge.*
+{: .caption}
 
 ## What I took away
 
