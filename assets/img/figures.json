@@ -1,22 +1,19 @@
 {
   "generated_by": "scripts/make_figures.py",
   "read_from": "E:\\Projects\\Jane-Street-ASIC-Puzzle",
-  "project_commit": "59508f1",
+  "project_commit": "044d28569c84d0957060229a787ca0f71823eddc",
+  "project_branch": "review-fixes",
+  "project_repo_dirty": false,
+  "regenerated_2026-09-16_note": "figures rebuilt after the 2026-09-15/16 solution-review fix pass (AC6 PARTIAL -> PASS, net806 framing corrected, E2 extended to the full 189-board swap family); the cited commit is HEAD on review-fixes, not yet tagged review-fixes-complete",
   "figures": [
     {
       "file": "f1_pipeline.png",
-      "caption": "The six moves, with the measured number that carries each one.",
+      "caption": "The pipeline: 31 stages from raw GDS to the derived answer, with the two independent behavioural oracles (warm-up regression, VCD replay) called out.",
       "sources": [
-        "recon/derived/solutions.json",
-        "recon/derived/nets.json",
-        "recon/derived/e1_messages.json",
-        "recon/derived/instances.json"
+        "tools/puzzle/cli.py"
       ],
       "source_sha256": {
-        "recon/derived/solutions.json": "e50c5053a2cbde8399f07f70f2b003614db725643bb4550a8b5a3d8164e092b4",
-        "recon/derived/nets.json": "a343ece5502db41a7089b76c0722b8800fd3e1f4450ba59fb1c4dcdf0699eb31",
-        "recon/derived/e1_messages.json": "2b76a5c0ced7bd84a0d8be2ce90f590d219bdf2c17889572c7cf3b00f0155830",
-        "recon/derived/instances.json": "2ecf203060cb878d0a0398fa5b2ccbee3e4f04f6c0b81431502261917d2e7a6c"
+        "tools/puzzle/cli.py": "0eee1cf6e41b4d1722ef8fa25ba686765924c25af6c6ddc03f471d0b5021dc90"
       }
     },
     {
@@ -27,45 +24,43 @@
         "recon/derived/e1_messages.json"
       ],
       "source_sha256": {
-        "recon/derived/solutions.json": "e50c5053a2cbde8399f07f70f2b003614db725643bb4550a8b5a3d8164e092b4",
+        "recon/derived/solutions.json": "e77ccf724993e7eac735dffe44c164797610a1d4b3be5b4a7cbb590140589903",
         "recon/derived/e1_messages.json": "2b76a5c0ced7bd84a0d8be2ce90f590d219bdf2c17889572c7cf3b00f0155830"
       }
     },
     {
       "file": "f3_messages.png",
-      "caption": "The five messages and their triggers.",
+      "caption": "The five messages and their triggers, plus the full 189-board swap-family breakdown (23 spell TWO NOT TOUCH, 156 do not, 10 are neither).",
       "sources": [
         "recon/derived/e1_messages.json",
         "recon/derived/e2_messages.json"
       ],
       "source_sha256": {
         "recon/derived/e1_messages.json": "2b76a5c0ced7bd84a0d8be2ce90f590d219bdf2c17889572c7cf3b00f0155830",
-        "recon/derived/e2_messages.json": "1b475ba6488869f88c0bbed89fb758369626b379875683ccdc2f22047ac41178"
+        "recon/derived/e2_messages.json": "9ba889a0c4e2e9e780f163f873362ff043b8807d3eeadc0fa4197abe0dd0e45b"
       }
     },
     {
       "file": "f4_partition.png",
-      "caption": "The recovered partition, as measured (not drawn as letters).",
+      "caption": "The recovered partition, as measured: 11 classes, plus each class cropped to its own bounding box on the right. Two of them draw as the letters J and S.",
       "sources": [
         "recon/derived/c4_partition.json",
         "recon/derived/solutions.json"
       ],
       "source_sha256": {
-        "recon/derived/c4_partition.json": "9e137e973636040abcaa4394f1a911174eb55d8cd319515b528307bd6694e5e9",
-        "recon/derived/solutions.json": "e50c5053a2cbde8399f07f70f2b003614db725643bb4550a8b5a3d8164e092b4"
+        "recon/derived/c4_partition.json": "881e46f56922a3e7f36d7065c0a32b5764b12f803aaef861add1aef3bc27e658",
+        "recon/derived/solutions.json": "e77ccf724993e7eac735dffe44c164797610a1d4b3be5b4a7cbb590140589903"
       }
     },
     {
       "file": "f5_net806.png",
-      "caption": "Net 806: the layout leaves it undriven, and the one cut over it cannot merge.",
+      "caption": "Net 806: the chip's one undriven net -- 17 shapes across li1/met1/met2, its own four vias, and the one foreign cut, rendered from the real GDS geometry.",
       "sources": [
         "recon/derived/net806.json",
-        "recon/derived/via_pairs.json",
         "asic-puzzle-2026/puzzle.gds"
       ],
       "source_sha256": {
-        "recon/derived/net806.json": "055952a87bbe22f904a253a7cc387ab0796a973a8bcb83315146b40a17249ae3",
-        "recon/derived/via_pairs.json": "3c7c54382d4fcd32f60f1a85edfdaff34893455eeae9dfffe9982a3790054994",
+        "recon/derived/net806.json": "55ef1da8eda36df1c1ad19eaa8e779a375fdaba8b1a672149eaf927a684232a1",
         "asic-puzzle-2026/puzzle.gds": "8913ea4be5367b484d5886c3c5f7608942b67544a0dbe364b17223503b8d851a"
       }
     }

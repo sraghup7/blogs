@@ -74,6 +74,7 @@ def main() -> int:
     nets, pn, replay = j('nets.json')['totals'], j('pin_net.json')['totals'], j('vcd_replay.json')
     a5, inst, net806 = j('pin_coverage.json'), j('instances.json'), j('net806.json')
     c4, inv = j('c4_partition.json'), json.loads((ROOT / 'recon' / 'inventory.json').read_text())
+    c5 = j('c5_rejections.json')
     warm, e1m = j('warmup_b7.json'), e1
 
     feed = sol['solution']['feed_order']
@@ -88,7 +89,7 @@ def main() -> int:
     warmup = j('warmup_b7.json')
     viap = j('via_pairs.json')
     layers = j('layers.json')
-    cand = c4['candidates'][0]
+    cand = next(c for c in c4['candidates'] if c['name'] == c4['selected'])
     numbers = [
         ('placements', len(inst['instances']), 'recon/derived/instances.json'),
         ('conductor shapes', nets['conductor_shapes'], 'recon/derived/nets.json'),
@@ -104,16 +105,31 @@ def main() -> int:
         ('cell masters', len(j('pin_names.json')['masters']), 'recon/derived/pin_names.json'),
         ('ones in the answer', sol['constraints']['ones'], 'recon/derived/solutions.json'),
         ('classes in the partition', len(cand['flops']), 'recon/derived/c4_partition.json'),
-        ('nodes in the exhaustive search', cand['unique_solution']['nodes'],
-         'recon/derived/c4_partition.json'),
+        # D1's answer-deriving search (Step 6), not C4's own internal uniqueness check on the
+        # candidate partition at selection time (recon/derived/c4_partition.json's
+        # candidates[].unique_solution.nodes == 694,478) -- a different search, the post does not
+        # cite that number, and it should not be asked to.
+        ('nodes in the answer-deriving search', sol['enumerators']['rows_dfs']['nodes'],
+         'recon/derived/solutions.json'),
         ('boards spelling TWO NOT TOUCH', e2['boards_spelling_the_message'],
          'recon/derived/e2_messages.json'),
         ('control boards', e2['control_group']['boards'], 'recon/derived/e2_messages.json'),
-        ('look-alikes tested', cand['rejection_test']['lookalikes_tested'],
-         'recon/derived/c4_partition.json'),
+        ('look-alikes tested', c5['rejection_test']['lookalikes_tested'],
+         'recon/derived/c5_rejections.json'),
         ('look-alikes behaving identically',
-         cand['rejection_test']['lookalikes_that_also_reject_every_board'],
-         'recon/derived/c4_partition.json'),
+         c5['rejection_test']['lookalikes_that_also_reject_every_board'],
+         'recon/derived/c5_rejections.json'),
+        ('boards in the swap family', e2['family']['boards'], 'recon/derived/e2_messages.json'),
+        ('controls against (non-matching boards)',
+         e2['family']['adjacent_over_caps'] + e2['family']['not_adjacent_over_caps'],
+         'recon/derived/e2_messages.json'),
+        ('look-alike partitions in the further JS/corroboration control',
+         e2['lookalike_power']['tested'], 'recon/derived/e2_messages.json'),
+        ('nearby-signal candidates within 15um of net 806',
+         len(net806['message_tie']['nearby_signals']['candidates']), 'recon/derived/net806.json'),
+        ('nearby signals that reproduce the message byte-exactly',
+         len(net806['message_tie']['nearby_signals']['reproduce_on_all_boards']),
+         'recon/derived/net806.json'),
         ('gates in the suite', len(__import__('tools.checks.run_all', fromlist=['x']).gate_paths()),
          'tools/checks/run_all.py'),
         ('injected faults', len(__import__('tools.checks.fault_inject', fromlist=['x']).MUTATIONS),
@@ -167,13 +183,17 @@ def main() -> int:
     # A banned phrase counts only where it is *asserted*: this post has to be able to write
     # `not "the map, proven"` -- that sentence is the honest claim, and a naive substring check
     # failed it on the first run.
+    # 2026-09-16: the fix pass flipped AC6 PARTIAL -> PASS -- the recovered classes do draw as J and
+    # S, corroborated on all 189 boards of the swap family, with none of 2,000 look-alikes
+    # reproducing that agreement. So a JS *reading* is no longer a forbidden claim; what stays
+    # forbidden is calling that reading, or the partition itself, *confirmed*/*proven* -- the
+    # accepted input is unique, so the chip's verdicts alone still cannot rule out every look-alike.
     banned = ['the map is confirmed', 'confirmed the map', 'proves the map', 'the map, proven',
-              'the map spells', 'spells "JS"', 'the regions spell',
-              'this post was written by', 'written by an AI', 'AI-generated post']
+              'the map is proven', 'this post was written by', 'written by an AI', 'AI-generated post']
     hits = banned_hits(flat, banned)
-    check(not hits, 'no forbidden claim is asserted (map confirmed / JS reproduced / post authorship)',
+    check(not hits, 'no forbidden claim is asserted (map confirmed/proven, or post authorship)',
           ', '.join(hits) or f'{len(banned)} phrases absent or negated')
-    required = ['corroborated', 'not confirmed', 'does not read as those letters',
+    required = ['corroborated', 'not confirmed', 'as the letters',
                 'DeepSeek', 'Hermes Agent']
     missing = [r for r in required if r.lower() not in flat.lower()]
     check(not missing, 'the honesty and attribution sentences are present',

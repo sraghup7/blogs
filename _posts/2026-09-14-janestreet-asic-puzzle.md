@@ -81,7 +81,11 @@ space. I wrote two independent enumerators and required them to agree. No SAT so
 `cover()` call — partly because the search is tractable, and partly because a solver that says
 "unsatisfiable" teaches you nothing about *why*.
 
-![The six moves, with the measured number that carries each](/blogs/assets/img/f1_pipeline.png)
+![The pipeline: 31 stages from raw GDS to the derived answer](/blogs/assets/img/f1_pipeline.png)
+
+*Every stage is gated by a check that re-derives what it asserts. The two outlined boxes are the
+project's independent behavioural oracles — the warm-up regression and the byte-exact VCD replay — not
+just more self-checks.*
 
 ### Tech stack
 
@@ -188,14 +192,17 @@ the other is a genuinely different partition, and it is the one that pins the ac
 ![The recovered partition, as measured](/blogs/assets/img/f4_partition.png)
 
 *The partition I recovered, as measured: 11 classes over the 121 cells, two of the answer's set bits in
-each. Class sizes run from 4 to 28 cells — it is not the tidy 11-column picture, and I deliberately
-draw it as measured rather than as anything prettier.*
+each. Class sizes run from 4 to 28 cells — it is not the tidy 11-column picture. On the right, each
+class cropped to its own bounding box: two of them, unlabelled here, are the J and S the published
+writeup describes.*
 
-Then I tested it against the chip *through its messages*. I built boards that satisfy the recovered
-partition and have exactly one visible flaw — an adjacent pair — and asked the chip what it thought.
-**All 23 of them print `TWO NOT TOUCH`** ("everything else is fine; your bits are touching"). And the
-controls that break the partition while also having an adjacent pair — **8 of them** — do not. That
-contrast is what turns a candidate partition into something the hardware itself corroborates.
+Then I tested it against the chip *through its messages*, on the whole family rather than a sample: every
+board reachable from the accepted one by swapping two rows' star columns — **189 boards** — asked, one at
+a time. **23 of them satisfy the recovered partition and have exactly one visible flaw (an adjacent
+pair); all 23 print `TWO NOT TOUCH`.** The other 166 break the partition too — 156 while also adjacent,
+10 while not — and every one of the 189 gets the message my prediction says it should get. That
+contrast, on the entire family and not a sample of it, is what turns a candidate partition into
+something the hardware itself corroborates.
 
 ## Step 6 — The answer
 
@@ -242,12 +249,12 @@ hidden rule is real, and it is the message that let me corroborate the partition
 The answer matching a published value proves very little on its own — I knew the target. So the
 verification is about the route:
 
-* **33 gates**, one per executed step, each re-deriving what it asserts from the artifacts or the
+* **34 gates**, one per executed step, each re-deriving what it asserts from the artifacts or the
   netlist rather than trusting a stored number. Several gates deliberately rebuild the extraction
   engine and re-measure, which is why the fast ones still take seconds.
 * **Fault injection as a meta-gate.** For every artifact, a script mutates it — claims a second
   solution, flips one bit of the answer, upgrades a partial verdict to a full one — and requires that
-  the *owning* gate fails and no other gate does. **129 injected faults, each caught by its owner.**
+  the *owning* gate fails and no other gate does. **132 injected faults, each caught by its owner.**
   A gate that cannot fail is not a gate.
 * **Reproducibility.** One command deletes every derived artifact the repository tracks, rebuilds all
   of them from the layout, and compares bytes against what was committed: **32 of 32 identical, 30
@@ -287,28 +294,43 @@ particular netlist is described, and they changed what I could assume.
 I would rather write this section than have someone find it themselves.
 
 **The region map is recovered and corroborated, not confirmed.** The accepted input is *unique*, so the
-chip's verdicts cannot distinguish my partition from a look-alike: of 200 partitions of the same shape,
-188 behave identically under every rejection test. The message channel does corroborate mine (23 boards
-for, 8 controls against), but that is a sample near the answer, not a proof over the space. So the claim
-is "recovered by measurement, corroborated by the hardware, with the strength of that evidence
-measured" — not "the map, proven".
+chip's verdicts alone cannot distinguish my partition from a look-alike: of 200 partitions of the same
+shape, 188 behave identically under simple rejection testing. The message channel is stronger evidence —
+23 boards for, 166 controls against, the full 189-board family and not a sample — and a further control
+of 2,000 look-alike partitions found that none of them reproduce that 189-board agreement. That is real,
+independent evidence, and it still is not proof that this is *the* rule: the accepted input is unique, so
+I cannot show the chip would reject every alternative partition I have not thought to generate.
 
-**My recovery does not spell anything.** The published writeup reads the map as the letters "JS". I
-recovered a partition, drew it as measured, and it does not read as those letters. I am not going to
-draw letters I did not find.
+**Correction to an earlier draft of this post: my recovery does read as letters.** Two of the eleven
+classes, cropped to their own bounding boxes, draw as the letters **J** and **S** — the same reading the
+published writeup describes. I did not go looking for that; it fell out of the measurement, and I
+checked it rather than assumed it once I noticed. I also want to name the method plainly rather than
+leave it implicit: the way I recovered this partition — sweep a single star through every position, watch
+which latches react — is the published solution's own method for this step. Its author arrived at it
+after declining to decode the region-select logic symbolically; I arrived at it after *trying* to decode
+it and finding there is nothing there to decode (see the disagreement above — the eleven counters are
+columns, not regions). Same method, different reason for reaching it, and I'd rather disclose that than
+imply the measurement was more novel than it is.
 
-**One character of one message is decided by a floating node.** On the `TWO NOT TOUCH` path, one printed
-character depends on a net that the layout leaves **structurally undriven** — both of its terminals are
-cell inputs, nothing drives it. I tested three explanations and refuted all three: no constant cell ties
-it (the nearest is ~10 µm away), the pin assignment is right (a rebuilt engine recovers the same two
-terminals), and no missed via merge hides a driver (the one via overlapping the wire sits on a layer
-pair the wire does not occupy there, so it cannot merge). The character is genuinely indeterminate, which
-means the chip is nondeterministic in exactly one place: one character of one of its five messages.
+**One character of one message is decided by a floating node — and I need to correct how I described
+this too.** On the `TWO NOT TOUCH` path, one printed character depends on a net that the layout leaves
+**structurally undriven** — both of its terminals are cell inputs, nothing drives it. I tested three
+explanations and refuted all three: no constant cell ties it (the nearest is ~10 µm away), the pin
+assignment is right (a rebuilt engine recovers the same two terminals), and no missed via merge hides a
+driver (the one via overlapping the wire sits on a layer pair the wire does not occupy there, so it
+cannot merge). I originally called this "nondeterministic" and said byte-exactness was unattainable.
+Both overstate it. The net is undriven **in this layout** — the layout genuinely does not determine what
+it carried — but I then searched every combinational net driven within 15 µm of the net's two consumers
+(24 candidates) and rewired it to each in turn. **5 of the 24 — real signals already present on the die
+— reproduce `TWO NOT TOUCH` byte-exactly**, on every one of the 23 boards that trigger the message. So
+the precise statement is narrower than "nondeterministic": this one character is undetermined by the
+artifact I was given, not undeterminable in principle, and at least five wires already on the die would
+have settled it.
 
 ![Net 806: the layout leaves it undriven](/blogs/assets/img/f5_net806.png)
 
-*The undriven net: 17 shapes across metal 1–3 and two via types, four of its own vias, and the one
-foreign via (red, dashed) that overlaps it — on a layer pair the wire does not use there, so there is
+*The undriven net: 17 shapes across li1/met1/met2, its own four vias (yellow), and the one foreign cut
+(the arrow) that overlaps its footprint on a layer pair the wire does not occupy there, so there is
 nothing to merge.*
 
 ## What I took away
